@@ -3,14 +3,13 @@ import { ref } from 'vue';
 import Timer from './components/Timer.vue';
 import Button from './components/Button.vue';
 
-const timerRef = ref<({start: () => null}) | null>(null);
+const timerRef = ref<any>();
 
 const startTimer = () => {
-    console.log('Start clicked');
     if (timerRef.value) {
+        timerRef.value.minutes = 15;
         timerRef.value.start();
     }
-    console.log('Timer ref:', timerRef.value);
 }
 </script>
 
@@ -25,6 +24,7 @@ const startTimer = () => {
 
 <style scoped>
 @reference 'tailwindcss';
+
 #buttonBar {
     @apply flex fixed justify-center bottom-8 gap-12;
 }
