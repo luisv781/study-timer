@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+@theme {
+  --color-cream: #fffecb;
+  --color-cream-dark: #e9e8a9;
+}
+
 :root {
   color-scheme: light dark;
 
@@ -9,8 +14,8 @@
   -moz-osx-font-smoothing: grayscale;
 
   overflow: hidden;
-  background-color: rgb(255, 249, 213);
-  color: rgb(46, 42, 15);
+  background-color: rgb(27, 38, 59);
+  color: rgb(235, 185, 223);
   font-family: 'Honey Crepes', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
@@ -20,6 +25,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+  border: 6px solid rgb(13, 27, 42);
 }
 
 @media (prefers-color-scheme: light) {
