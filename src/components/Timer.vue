@@ -1,53 +1,90 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const timer = ref("00:00");
-const minutes = ref(15);
+const time = ref("00:00");
+const minutes = ref(25);
 
-let started = false;
+let timer: NodeJS.Timeout | undefined;
+let targetTime: Date;
+
+let lastPause: Date;
+let started = ref(false);
+let paused = ref(false);
 
 defineExpose({
     start: () => start(),
-    minutes: minutes
+    pause: () => pause(),
+    reset: () => reset(),
+    minutes: minutes,
+    started: started,
+    paused: paused
 });
 
 function updateTimer(diff: number) {
     const minutes = Math.floor(diff / 60).toString().padStart(2, '0');
     const seconds = Math.floor(diff % 60).toString().padStart(2, '0');
-    timer.value = `${minutes}:${seconds}`;
+    time.value = `${minutes}:${seconds}`;
 }
 
 function getDiff(targetTime: Date): number {
+    // Get the difference in seconds between the target time and current time
     const now = new Date();
     return Math.floor((targetTime.getTime() - now.getTime()) / 1000);
 }
 
 async function start() {
-    if (started) {
-        return;
-    }
-    started = true;
+    if (started.value) return;
+    started.value = true;
+
+    // Calculate the target time before starting the timer
     let now = new Date();
-    const targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes() + minutes.value, now.getSeconds());
+    targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes() + minutes.value, now.getSeconds());
     let diff = getDiff(targetTime);
     updateTimer(diff);
 
-    let interval = setInterval(() => {
-        diff = getDiff(targetTime);
-        updateTimer(diff);
-
-        if (diff <= 0) {
-            clearInterval(interval);
-            timer.value = "00:00";
-            started = false;
-            return;
+    timer = setInterval(() => {
+        // If not paused, calculate the time remaining until
+        // reaching the target time and update the timer
+        if (!paused.value) {
+            diff = getDiff(targetTime);
+            updateTimer(diff);
+    
+            if (diff <= 0) {
+                // Reset the timer when the time runs out
+                reset();
+                return;
+            }
         }
     }, 1000);
+}
+
+async function pause() {
+    if (!paused.value) {
+        // If not paused, pause and store the time of pausing
+        lastPause = new Date();
+        paused.value = true;
+    } else if (lastPause) {
+        // If paused, unpause, calculate the time paused,
+        // and add it to the target time
+        let now = new Date();
+        let timePaused = now.getTime() - lastPause.getTime();
+        targetTime.setTime(targetTime.getTime() + timePaused);
+        paused.value = false;
+    }
+}
+
+async function reset() {
+    if (!started.value || !timer) return;
+
+    // Stop the timer from running
+    clearInterval(timer);
+    time.value = "00:00";
+    started.value = false;
 }
 </script>
 
 <template>
-    <h1>{{ timer }}</h1>
+<h1>{{ time }}</h1>
 </template>
 
 <style scoped>
