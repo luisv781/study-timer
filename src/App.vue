@@ -9,7 +9,7 @@ const timerRef = ref<any>();
 let minutes = 25;
 
 const startTimer = () => {
-    if (!timerRef.value) return;
+    if (!timerRef.value || timerRef.value.started) return;
     timerRef.value.minutes = minutes;
     timerRef.value.start();
 }

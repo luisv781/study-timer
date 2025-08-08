@@ -12,7 +12,7 @@ const started = ref(false);
 const paused = ref(false);
 
 defineExpose({
-    start: () => start(),
+    start: () => start(true),
     pause: () => pause(),
     reset: () => reset(),
     label: label,
@@ -33,13 +33,14 @@ function getDiff(targetTime: Date): number {
     return Math.floor((targetTime.getTime() - now.getTime()) / 1000);
 }
 
-async function start() {
+async function start(firstTimer?: boolean) {
     if (started.value) return;
     started.value = true;
 
     // Calculate the target time before starting the timer
     let now = new Date();
-    targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes() + minutes.value, now.getSeconds());
+    targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(),
+        now.getMinutes() + (firstTimer ? minutes.value : 5), now.getSeconds());
     let diff = getDiff(targetTime);
     updateTimer(diff);
 
@@ -53,6 +54,17 @@ async function start() {
             if (diff <= 0) {
                 // Reset the timer when the time runs out
                 reset();
+                if (firstTimer) {
+                    new Notification("Times Up", 
+                        {body: `Your ${minutes.value}-minute timer has finished. A five minute break begins now.`}
+                    );
+                    start();
+                } else {
+                    let notification = new Notification("Break over",
+                        {body: "Your five minute break is over. Click to restart the timer."}
+                    )
+                    notification.onclick = () => start(true);
+                }
                 return;
             }
         
