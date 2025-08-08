@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: 'Honey Crepes';
-  src: url('assets/Honey\ Crepes.otf') format('otf');
+  src: url('assets/Honey Crepes.otf') format('opentype');
 }
 
 @theme {
