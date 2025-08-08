@@ -23,7 +23,7 @@ button:active {
 
 button::before {
     @apply absolute h-full w-full top-0 left-0 -z-10 content-[''];
-    @apply bg-button-hover rounded-xl translate-y-2 transition ease-in-out;
+    @apply bg-button-dark rounded-xl translate-y-2 transition ease-in-out;
 }
 button:active::before {
     @apply translate-y-0;

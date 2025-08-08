@@ -11,6 +11,7 @@
   --timer-color: rgb(235, 185, 223);
   --color-button: rgb(255, 254, 203);
   --color-button-hover: rgb(233, 232, 169);
+  --color-button-dark: rgb(216, 215, 150);
 }
 
 :root {
