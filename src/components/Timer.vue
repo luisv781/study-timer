@@ -1,20 +1,21 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const time = ref("00:00");
+const label = ref("25:00");
 const minutes = ref(25);
 
 let timer: NodeJS.Timeout | undefined;
 let targetTime: Date;
 
 let lastPause: Date;
-let started = ref(false);
-let paused = ref(false);
+const started = ref(false);
+const paused = ref(false);
 
 defineExpose({
     start: () => start(),
     pause: () => pause(),
     reset: () => reset(),
+    label: label,
     minutes: minutes,
     started: started,
     paused: paused
@@ -23,7 +24,7 @@ defineExpose({
 function updateTimer(diff: number) {
     const minutes = Math.floor(diff / 60).toString().padStart(2, '0');
     const seconds = Math.floor(diff % 60).toString().padStart(2, '0');
-    time.value = `${minutes}:${seconds}`;
+    label.value = `${minutes}:${seconds}`;
 }
 
 function getDiff(targetTime: Date): number {
@@ -45,7 +46,7 @@ async function start() {
     timer = setInterval(() => {
         // If not paused, calculate the time remaining until
         // reaching the target time and update the timer
-        if (!paused.value) {
+        if (paused.value) return;
             diff = getDiff(targetTime);
             updateTimer(diff);
     
@@ -54,7 +55,7 @@ async function start() {
                 reset();
                 return;
             }
-        }
+        
     }, 1000);
 }
 
@@ -78,13 +79,13 @@ async function reset() {
 
     // Stop the timer from running
     clearInterval(timer);
-    time.value = "00:00";
     started.value = false;
+    paused.value = false;
 }
 </script>
 
 <template>
-<h1>{{ time }}</h1>
+<h1>{{ label }}</h1>
 </template>
 
 <style scoped>

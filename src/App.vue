@@ -6,9 +6,11 @@ import Button from './components/Button.vue';
 
 const timerRef = ref<any>();
 
+let minutes = 25;
+
 const startTimer = () => {
     if (!timerRef.value) return;
-    timerRef.value.minutes = 25;
+    timerRef.value.minutes = minutes;
     timerRef.value.start();
 }
 
@@ -27,6 +29,7 @@ const triggerTimer = () => {
 const resetTimer = () => {
     if (!timerRef.value) return;
     timerRef.value.reset();
+    updateTimer();
 }
 
 const getLabel = () => {
@@ -53,9 +56,9 @@ const updateTimer = (minutesToAdd?: number) => {
             <Button label="+5" @click="updateTimer(5)" />
             <Button label="-5" @click="updateTimer(-5)" />
         </div>
-    <div id="timerActions">
-        <Button :label="getLabel()" @click="() => triggerTimer()" />
-        <Button label="Reset" @click="() => resetTimer()" />
+        <div id="timerActions">
+            <Button :label="getLabel()" @click="() => triggerTimer()" />
+            <Button label="Reset" @click="() => resetTimer()" />
         </div>
     </div>
 </template>
