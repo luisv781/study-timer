@@ -90,7 +90,9 @@ async function reset() {
 <style scoped>
 h1 {
     margin: 0 auto;
-    font-size: 12em;
+    font-size: 10em;
+    font-weight: 700;
+    line-height: 0.7;
     -webkit-text-stroke: 3px rgb(245, 213, 237);
 }
 </style>

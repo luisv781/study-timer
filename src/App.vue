@@ -29,27 +29,55 @@ const resetTimer = () => {
     timerRef.value.reset();
 }
 
-function getLabel(): string  {
+const getLabel = () => {
     if (!timerRef.value) return 'Start';
     if (!timerRef.value.started)
         return 'Start'
-    else return (timerRef.value.paused) ? 'Start' : 'Pause';
+    else return (timerRef.value.paused) ? 'Resume' : 'Pause';
+}
+
+const updateTimer = (minutesToAdd?: number) => {
+    if (minutesToAdd && minutes + minutesToAdd > 0)
+        minutes += minutesToAdd;
+    if (timerRef.value)
+        timerRef.value.label = `${minutes.toString().padStart(2, "0")}:00`;
 }
 </script>
 
 <template>
     <TitleBar />
     <Timer ref="timerRef" />
+    <div id="buttonsContainer">
+        <div id="timeModifiers">
+            <Button label="+10" @click="updateTimer(10)" />
+            <Button label="+5" @click="updateTimer(5)" />
+            <Button label="-5" @click="updateTimer(-5)" />
+        </div>
     <div id="timerActions">
         <Button :label="getLabel()" @click="() => triggerTimer()" />
         <Button label="Reset" @click="() => resetTimer()" />
+        </div>
     </div>
 </template>
 
 <style scoped>
 @reference 'tailwindcss';
 
+#buttonsContainer {
+    @apply flex flex-col gap-4
+}
+
+#buttonsContainer div {
+    @apply flex justify-center;
+}
+#timeModifiers {
+    @apply gap-4;
+}
+#timeModifiers button {
+    @apply text-xl py-1 px-2;
+}
+
 #timerActions {
-    @apply flex fixed justify-center bottom-8 gap-12;
+    @apply gap-12;
 }
 </style>
