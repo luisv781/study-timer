@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -26,11 +26,7 @@ function createWindow() {
     },
     width: 600,
     height: 400,
-  })
-
-  // Test active push message to Renderer-process.
-  win.webContents.on('did-finish-load', () => {
-    win?.webContents.send('main-process-message', (new Date).toLocaleString())
+    resizable: false,
   })
 
   if (VITE_DEV_SERVER_URL) {
@@ -54,3 +50,15 @@ app.on('activate', () => {
 })
 
 app.whenReady().then(createWindow)
+
+ipcMain.on('close-window', () => {
+  if (win) {
+    win.close();
+  }
+});
+
+ipcMain.on('minimize-window', () => {
+  if (win) {
+    win.minimize();
+  }
+});

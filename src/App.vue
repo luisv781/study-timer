@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import TitleBar from './components/TitleBar.vue';
 import Timer from './components/Timer.vue';
 import Button from './components/Button.vue';
 
@@ -14,6 +15,7 @@ const startTimer = () => {
 </script>
 
 <template>
+    <TitleBar />
     <Timer ref="timerRef" />
     <div id="buttonBar">
         <Button label="Start" @click="() => startTimer()" />
