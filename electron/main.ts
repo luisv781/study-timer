@@ -24,8 +24,8 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
     },
-    width: 600,
-    height: 400,
+    width: 500,
+    height: 350,
     resizable: false,
   })
 

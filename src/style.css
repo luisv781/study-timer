@@ -1,8 +1,16 @@
 @import 'tailwindcss';
 
+@font-face {
+  font-family: 'Honey Crepes';
+  src: url('assets/Honey\ Crepes.otf') format('otf');
+}
+
 @theme {
-  --color-cream: #fffecb;
-  --color-cream-dark: #e9e8a9;
+  --bg-color: rgb(27, 38, 59);
+  --border-color: rgb(13, 27, 42);
+  --timer-color: rgb(235, 185, 223);
+  --color-button: rgb(255, 254, 203);
+  --color-button-hover: rgb(233, 232, 169);
 }
 
 :root {
@@ -15,18 +23,16 @@
 
   user-select: none;
   overflow: hidden;
-  background-color: rgb(27, 38, 59);
-  color: rgb(235, 185, 223);
+  background-color: var(--bg-color);
+  color: var(--timer-color);
   font-family: 'Honey Crepes', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 #app {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  border: 6px solid rgb(13, 27, 42);
+  @apply flex flex-col items-center justify-center;
+  @apply h-dvh pt-10 gap-6;
+
+  border: 6px solid var(--border-color);
 }
 
 @media (prefers-color-scheme: light) {
