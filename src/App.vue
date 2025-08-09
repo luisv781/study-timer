@@ -40,10 +40,12 @@ const getLabel = () => {
 }
 
 const updateTimer = (minutesToAdd?: number) => {
-    if (minutesToAdd && minutes + minutesToAdd > 0)
-        minutes += minutesToAdd;
-    if (timerRef.value)
+    if (!timerRef.value) return;
+    if (!timerRef.value.started) {
+        if (minutesToAdd && minutes + minutesToAdd > 0 && minutes + minutesToAdd <= 60)
+            minutes += minutesToAdd;
         timerRef.value.label = `${minutes.toString().padStart(2, "0")}:00`;
+    }
 }
 </script>
 
