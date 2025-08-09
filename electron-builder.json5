@@ -1,9 +1,9 @@
 // @see - https://www.electron.build/configuration/configuration
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "com.luis.timer-app",
+  "appId": "com.luis.study-timer",
   "asar": true,
-  "productName": "TimerApp",
+  "productName": "Study Timer",
   "directories": {
     "output": "release/${version}"
   },

@@ -2,18 +2,18 @@
 import { IconX, IconArrowsDiagonalMinimize } from '@tabler/icons-vue';
 
 const closeWindow = () => {
-  window.ipcRenderer.closeWindow();
+    window.ipc.closeWindow();
 };
 
 const minimizeWindow = () => {
-  window.ipcRenderer.minimizeWindow();
+    window.ipc.minimizeWindow();
 };
 </script>
 
 <template>
 <nav>
-  <div @click="closeWindow"><IconX /></div>
-  <div @click="minimizeWindow"><IconArrowsDiagonalMinimize /></div>
+    <div @click="closeWindow"><IconX /></div>
+    <div @click="minimizeWindow"><IconArrowsDiagonalMinimize /></div>
 </nav>
 </template>
 
