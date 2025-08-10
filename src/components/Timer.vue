@@ -5,6 +5,7 @@ const label = ref("25:00");
 const minutes = ref(25);
 
 let timer: NodeJS.Timeout | undefined;
+let startDiff: number;
 let targetTime: Date;
 
 let lastPause: Date;
@@ -21,10 +22,14 @@ defineExpose({
     paused: paused
 });
 
-function updateTimer(diff: number) {
-    const minutes = Math.floor(diff / 60).toString().padStart(2, '0');
-    const seconds = Math.floor(diff % 60).toString().padStart(2, '0');
+function updateTimer(timeLeft: number) {
+// Update the timer's label to display the current time remaining
+    const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+    const seconds = Math.floor(timeLeft % 60).toString().padStart(2, '0');
     label.value = `${minutes}:${seconds}`;
+
+    let progress = 1 - (timeLeft / startDiff);
+    window.ipc.setProgressBar(progress);
 }
 
 function getDiff(targetTime: Date): number {
@@ -40,15 +45,16 @@ async function start(firstTimer?: boolean) {
     // Calculate the target time before starting the timer
     let now = new Date();
     targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(),
-        now.getMinutes() + (firstTimer ? minutes.value : 5), now.getSeconds());
-    let diff = getDiff(targetTime);
-    updateTimer(diff);
+        now.getMinutes() + minutes, now.getSeconds());
+    startDiff = getDiff(targetTime);
+    updateTimer(startDiff);
 
     timer = setInterval(() => {
         // If not paused, calculate the time remaining until
         // reaching the target time and update the timer
         if (paused.value) return;
-            diff = getDiff(targetTime);
+
+        let diff = getDiff(targetTime);
             updateTimer(diff);
     
             if (diff <= 0) {
@@ -90,6 +96,7 @@ async function reset() {
     if (!started.value || !timer) return;
 
     // Stop the timer from running
+    window.ipc.setProgressBar(-1);
     clearInterval(timer);
     started.value = false;
     paused.value = false;

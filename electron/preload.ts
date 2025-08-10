@@ -20,7 +20,7 @@ contextBridge.exposeInMainWorld('ipc', {
   },
 
   // You can expose other APTs you need here.
-  // ...
+  setProgressBar: (progress: number) => ipcRenderer.send('set-progress-bar', progress),
   closeWindow: () => ipcRenderer.send('close-window'),
   minimizeWindow: () => ipcRenderer.send('minimize-window'),
 })

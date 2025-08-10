@@ -51,14 +51,18 @@ app.on('activate', () => {
 
 app.whenReady().then(createWindow)
 
+ipcMain.on('set-progress-bar', (_event, progress: number) => {
+  win?.setProgressBar(progress);
+})
+
 ipcMain.on('close-window', () => {
   if (win) {
     win.close();
   }
-});
+})
 
 ipcMain.on('minimize-window', () => {
   if (win) {
     win.minimize();
   }
-});
+})
