@@ -2,28 +2,27 @@
 import { ref } from 'vue';
 
 const label = ref("25:00");
-const minutes = ref(25);
+const breakTime = 5;
 
 let timer: NodeJS.Timeout | undefined;
 let startDiff: number;
 let targetTime: Date;
-
 let lastPause: Date;
+
 const started = ref(false);
 const paused = ref(false);
 
 defineExpose({
-    start: () => start(true),
+    start: (minutes: number) => start(minutes, true),
     pause: () => pause(),
     reset: () => reset(),
     label: label,
-    minutes: minutes,
     started: started,
     paused: paused
 });
 
 function updateTimer(timeLeft: number) {
-// Update the timer's label to display the current time remaining
+    // Update the timer's label to display the current time remaining
     const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
     const seconds = Math.floor(timeLeft % 60).toString().padStart(2, '0');
     label.value = `${minutes}:${seconds}`;
@@ -38,7 +37,7 @@ function getDiff(targetTime: Date): number {
     return Math.floor((targetTime.getTime() - now.getTime()) / 1000);
 }
 
-async function start(firstTimer?: boolean) {
+async function start(minutes: number, firstTimer?: boolean) {
     if (started.value) return;
     started.value = true;
 
@@ -55,24 +54,26 @@ async function start(firstTimer?: boolean) {
         if (paused.value) return;
 
         let diff = getDiff(targetTime);
-            updateTimer(diff);
-    
-            if (diff <= 0) {
-                // Reset the timer when the time runs out
-                reset();
-                if (firstTimer) {
-                    new Notification("Times Up", 
-                        {body: `Your ${minutes.value}-minute timer has finished. A five minute break begins now.`}
-                    );
-                    start();
-                } else {
-                    let notification = new Notification("Break over",
-                        {body: "Your five minute break is over. Click to restart the timer."}
-                    )
-                    notification.onclick = () => start(true);
-                }
-                return;
+        updateTimer(diff);
+
+        if (diff <= 0) {
+            // Reset the timer when the time runs out
+            reset();
+            if (firstTimer) {
+                // If it's the first timer, start a timer for a break
+                new Notification("Times Up", 
+                    {body: `Your ${minutes}-minute timer has finished. A five minute break begins now.`}
+                );
+                start(breakTime);
+            } else {
+                // Else, the timer break is over
+                let notification = new Notification("Break over",
+                    {body: "Your five minute break is over. Click to restart the timer."}
+                )
+                notification.onclick = () => start(minutes, true);
             }
+            return;
+        }
         
     }, 1000);
 }

@@ -23,6 +23,7 @@ function createWindow() {
     titleBarStyle: 'hidden',
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
+      devTools: !app.isPackaged
     },
     width: 500,
     height: 350,

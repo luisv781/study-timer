@@ -10,8 +10,7 @@ let minutes = 25;
 
 const startTimer = () => {
     if (!timerRef.value || timerRef.value.started) return;
-    timerRef.value.minutes = minutes;
-    timerRef.value.start();
+    timerRef.value.start(minutes);
 }
 
 const pauseTimer = () => {
