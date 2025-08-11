@@ -6,6 +6,7 @@ declare global {
             setProgressBar: (number) => void;
             closeWindow: () => void;
             minimizeWindow: () => void;
+            getLaunchArg: () => Promise<any>;
         }
     }
 }

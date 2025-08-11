@@ -23,4 +23,5 @@ contextBridge.exposeInMainWorld('ipc', {
   setProgressBar: (progress: number) => ipcRenderer.send('set-progress-bar', progress),
   closeWindow: () => ipcRenderer.send('close-window'),
   minimizeWindow: () => ipcRenderer.send('minimize-window'),
+  getLaunchArg: () => ipcRenderer.invoke('getLaunchArg')
 })
