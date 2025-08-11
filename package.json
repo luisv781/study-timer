@@ -1,8 +1,9 @@
 {
   "name": "study-timer",
-  "private": true,
+  "author": {"name": "luis"},
   "version": "0.2.0",
   "type": "module",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build && electron-builder",
