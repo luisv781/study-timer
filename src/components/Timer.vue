@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const label = ref("25:00");
 const breakTime = 5;
@@ -18,16 +18,20 @@ defineExpose({
     reset: () => reset(),
     label: label,
     started: started,
-    paused: paused
+    paused: paused,
 });
 
 function updateTimer(timeLeft: number) {
     // Update the timer's label to display the current time remaining
-    const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-    const seconds = Math.floor(timeLeft % 60).toString().padStart(2, '0');
+    const minutes = Math.floor(timeLeft / 60)
+        .toString()
+        .padStart(2, "0");
+    const seconds = Math.floor(timeLeft % 60)
+        .toString()
+        .padStart(2, "0");
     label.value = `${minutes}:${seconds}`;
 
-    let progress = 1 - (timeLeft / startDiff);
+    let progress = 1 - timeLeft / startDiff;
     window.ipc.setProgressBar(progress);
 }
 
@@ -43,8 +47,14 @@ async function start(minutes: number, firstTimer?: boolean) {
 
     // Calculate the target time before starting the timer
     let now = new Date();
-    targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(),
-        now.getMinutes() + minutes, now.getSeconds());
+    targetTime = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        now.getHours(),
+        now.getMinutes() + minutes,
+        now.getSeconds()
+    );
     startDiff = getDiff(targetTime);
     updateTimer(startDiff);
 
@@ -61,20 +71,19 @@ async function start(minutes: number, firstTimer?: boolean) {
             reset();
             if (firstTimer) {
                 // If it's the first timer, start a timer for a break
-                new Notification("Times Up", 
-                    {body: `Your ${minutes}-minute timer has finished. A five minute break begins now.`}
-                );
+                new Notification("Times Up", {
+                    body: `Your ${minutes}-minute timer has finished. A five minute break begins now.`,
+                });
                 start(breakTime);
             } else {
                 // Else, the timer break is over
-                let notification = new Notification("Break over",
-                    {body: "Your five minute break is over. Click to restart the timer."}
-                )
+                let notification = new Notification("Break over", {
+                    body: "Your five minute break is over. Click to restart the timer.",
+                });
                 notification.onclick = () => start(minutes, true);
             }
             return;
         }
-        
     }, 1000);
 }
 
@@ -105,7 +114,7 @@ async function reset() {
 </script>
 
 <template>
-<h1>{{ label }}</h1>
+    <h1>{{ label }}</h1>
 </template>
 
 <style scoped>

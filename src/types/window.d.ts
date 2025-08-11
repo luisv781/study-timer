@@ -7,6 +7,6 @@ declare global {
             closeWindow: () => void;
             minimizeWindow: () => void;
             getLaunchArg: () => Promise<any>;
-        }
+        };
     }
 }

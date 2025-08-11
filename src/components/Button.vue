@@ -3,7 +3,7 @@ defineProps<{ label: string }>();
 </script>
 
 <template>
-<button>{{ label }}</button>
+    <button>{{ label }}</button>
 </template>
 
 <style scoped>

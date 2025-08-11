@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconX, IconArrowsDiagonalMinimize } from '@tabler/icons-vue';
+import { IconX, IconArrowsDiagonalMinimize } from "@tabler/icons-vue";
 
 const closeWindow = () => {
     window.ipc.closeWindow();
@@ -11,10 +11,10 @@ const minimizeWindow = () => {
 </script>
 
 <template>
-<nav>
-    <div @click="closeWindow"><IconX /></div>
-    <div @click="minimizeWindow"><IconArrowsDiagonalMinimize /></div>
-</nav>
+    <nav>
+        <div @click="closeWindow"><IconX /></div>
+        <div @click="minimizeWindow"><IconArrowsDiagonalMinimize /></div>
+    </nav>
 </template>
 
 <style scoped>

@@ -1,41 +1,41 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @font-face {
-  font-family: 'Honey Crepes';
-  src: url('assets/Honey Crepes.otf') format('opentype');
+    font-family: "Honey Crepes";
+    src: url("assets/Honey Crepes.otf") format("opentype");
 }
 
 @theme {
-  --bg-color: rgb(27, 38, 59);
-  --border-color: rgb(13, 27, 42);
-  --timer-color: rgb(235, 185, 223);
-  --color-button: rgb(255, 254, 203);
-  --color-button-hover: rgb(233, 232, 169);
-  --color-button-dark: rgb(216, 215, 150);
+    --bg-color: rgb(27, 38, 59);
+    --border-color: rgb(13, 27, 42);
+    --timer-color: rgb(235, 185, 223);
+    --color-button: rgb(255, 254, 203);
+    --color-button-hover: rgb(233, 232, 169);
+    --color-button-dark: rgb(216, 215, 150);
 }
 
 :root {
-  color-scheme: light dark;
+    color-scheme: light dark;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
-  user-select: none;
-  overflow: hidden;
-  background-color: var(--bg-color);
-  color: var(--timer-color);
-  font-family: 'Honey Crepes', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    user-select: none;
+    overflow: hidden;
+    background-color: var(--bg-color);
+    color: var(--timer-color);
+    font-family: "Honey Crepes", Inter, system-ui, Avenir, Helvetica, Arial,
+        sans-serif;
 }
 
 #app {
-  @apply flex flex-col items-center justify-center;
-  @apply h-dvh pt-10 gap-6;
+    @apply flex flex-col items-center justify-center;
+    @apply h-dvh pt-10 gap-6;
 
-  border: 6px solid var(--border-color);
+    border: 6px solid var(--border-color);
 }
 
 @media (prefers-color-scheme: light) {
-
 }
