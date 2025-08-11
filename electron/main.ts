@@ -56,6 +56,27 @@ function createWindow() {
   } else {
     win.loadFile(path.join(RENDERER_DIST, 'index.html'))
   }
+
+}
+
+function getLaunchArg() {
+  let launchArgs = process.argv
+  let argument
+  for (let i in launchArgs) {
+    switch (launchArgs[i]) {
+      case "--25-minutes":
+        argument = launchArgs[i]
+        break
+      
+      case "--15-minutes":
+        argument = launchArgs[i]
+        break
+    
+      default:
+        break
+    }
+  }
+  if (argument) return argument
 }
 
 app.on('window-all-closed', () => {
@@ -74,6 +95,8 @@ app.on('activate', () => {
 app.setUserTasks(userTasks)
 
 app.whenReady().then(createWindow)
+
+ipcMain.handle('getLaunchArg', getLaunchArg)
 
 ipcMain.on('set-progress-bar', (_event, progress: number) => {
   win?.setProgressBar(progress)
