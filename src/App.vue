@@ -46,6 +46,26 @@ const updateTimer = (minutesToAdd?: number) => {
         timerRef.value.label = `${minutes.toString().padStart(2, "0")}:00`;
     }
 }
+
+window.ipc.getLaunchArg().then((launchArg) => {
+    console.log(launchArg)
+    switch (launchArg) {
+        case "--25-minutes":
+            minutes = 25;
+            updateTimer();
+            startTimer();
+            break;
+                
+        case "--15-minutes":
+            minutes = 15;
+            updateTimer();
+            startTimer();
+            break;
+        
+        default:
+            break;
+    }
+});
 </script>
 
 <template>
