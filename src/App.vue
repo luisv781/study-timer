@@ -50,7 +50,6 @@ const updateTimer = (minutesToAdd?: number) => {
 };
 
 window.ipc.getLaunchArg().then((launchArg) => {
-    console.log(launchArg);
     switch (launchArg) {
         case "--25-minutes":
             minutes = 25;
